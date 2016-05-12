@@ -101,7 +101,7 @@ public int getPunkty(){return Punkty;}
 
 public void paint(Graphics2D g){
     g.setColor(Color.red);
-g.fillOval(x, y,getWidth(), getHeight());
+g.fillOval(x, y,40,40);
 }
 public boolean czykolizjaP(Paletka p){
  if((getX()<=p.getWidth())&&((getY()+getHeight()>=p.getY())&(getY()<=p.getY()+p.getHeight())))   
