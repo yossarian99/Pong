@@ -35,14 +35,7 @@ public boolean runda=false;
 public Paint obj;
 public static boolean watek;
 public PingPong() {
-    ThreadPool threadPool = new ThreadPool();
-
-        // Uruchomienie przyk³adowych w¹tków:
-        
-            threadPool.runTask(createTask(1));
-        
-        // Zamkniêcie puli i oczekiwanie na zakoñczenie wszystkich zadañ.
-        threadPool.join();
+   
          
   
     JFrame okno = new JFrame("PingPong");
@@ -65,20 +58,20 @@ strategia = getBufferStrategy();
 requestFocus();
  
  Pgracza=0;
-PAI=0;   
-ArrayList aktors = new ArrayList();
+PAI=0; 
+actors = new ArrayList();
 Piłka m = new Piłka(this);
 Paletka p = new Paletka(this);
 Baner b = new Baner(this);
-aktors.add(m);
-aktors.add(p);
-aktors.add(b);
-
+actors.add(m);
+actors.add(p);
+actors.add(b);
+initWorld(actors);
     
  
   return;
 }
-public void initWorld() {
+public void initWorld(ArrayList actors) {
 
 Piłka m =(Piłka)actors.get(0);
 Paletka p =(Paletka)actors.get(1);
@@ -140,7 +133,7 @@ public boolean Statusgry(){return gameEnded;}
 public void rundagracza(){runda=false;}
 public boolean kogoserw(){return runda;}
 public void rundaAI(){runda=true;}
- public synchronized void updateWorld() {
+ public synchronized void updateWorld(ArrayList actors) {
 
 Piłka m = (Piłka)actors.get(0);
 Paletka p =(Paletka)actors.get(1);
@@ -173,34 +166,45 @@ if(PAI>=10) gameOver();
 }
  
  public void game() {
+     
+      ThreadPool threadPool = new ThreadPool();
+
+        // Uruchomienie przyk³adowych w¹tków:
+        
+            threadPool.runTask(createTask(1));
+        
+        // Zamkniêcie puli i oczekiwanie na zakoñczenie wszystkich zadañ.
+       
 
 while (!gameEnded){
-        initWorld();
+    watek=true;
+       // initWorld();
         
                 while (isVisible()&&(etapOver)) {
                     if(gameEnded)EtapOverOff();
                         
 
 
-                   updateWorld();
+                   updateWorld(actors);
                  
                
 
                  
                     
-                   /* try {
+                   try {
   
-                    Thread.sleep(10);
+                    Thread.sleep(5);
 
 
 
                     } catch (InterruptedException e) {}
-*/
 }
 
 EtapOverOff();
-
+ 
 }
+watek=false;
+threadPool.join();
 paintEnd();
 }
 public void  keyPressed(KeyEvent e) {
@@ -240,26 +244,25 @@ g.drawString("Punkty gracza -"+String.valueOf(Pgracza),Etap.SZEROKOSC/2/2-30,Eta
         
 g.drawString("Punkty Komputera -"+String.valueOf(PAI),Etap.SZEROKOSC/2+Etap.SZEROKOSC/2/2,Etap.WYSOKOSC-50);
 
-strategia.show();
- try {
+
   
-                    Thread.sleep(100);
+                 try {
+  
+                    Thread.sleep(5);
 
 
 
                     } catch (InterruptedException e) {}
-   }   
                 
                 
                 
+        strategia.show();        
                 
-                
-                
-            }
+              }
             }
         };
-    }
-
+    };
+                }
 
 
 
